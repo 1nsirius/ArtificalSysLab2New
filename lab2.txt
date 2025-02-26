@@ -1,0 +1,72 @@
+% Определение понятий
+concept(order).
+concept(client).
+concept(pickup_point).
+concept(employee).
+concept(product).
+concept(reception).
+concept(order_status).
+concept(notification).
+concept(wait_time).
+concept(receipt_method).
+concept(delivery).
+concept(payment).
+
+% Определение отношений
+is_a(order, product).
+is_a(client, employee).
+
+part_of(order, pickup_point).
+part_of(reception, order).
+
+own(client, order).
+own(employee, notification).
+
+% Примеры конкретных экземпляров
+order(123).
+order(124).
+
+client(john).
+client(mary).
+
+pickup_point(main_branch).
+pickup_point(branch_2).
+
+employee(alice).
+employee(bob).
+
+product(book).
+product(toy).
+
+order_status(123, pending).
+order_status(124, completed).
+
+% Запросы
+% Пример запроса: найти все заказы клиента
+find_orders(Client) :-
+    own(Client, Order),
+    format('Client ~w has order ~w~n', [Client, Order]).
+
+% Пример запроса: узнать статус заказа
+get_order_status(Order, Status) :-
+    order_status(Order, Status).
+
+% Пример запроса: кто является сотрудником пункта выдачи
+find_employees :-
+    employee(Employee),
+    format('Employee: ~w~n', [Employee]).
+
+% Пример запроса: какие товары доступны для получения
+available_products :-
+    product(Product),
+    format('Available product: ~w~n', [Product]).
+
+% Пример запроса: какой способ получения заказа
+receipt_method(order, method) :-
+    method = 'Pickup'; method = 'Delivery'.
+
+% Пример использования
+% ?- find_orders(john).
+% ?- get_order_status(123, Status).
+% ?- find_employees.
+% ?- available_products.
